@@ -3,15 +3,9 @@ export enum MovieId {
   F002 = "F002",
 }
 
-export enum MovieCode {
-  CHILDRENS = "childrens",
-  REGULAR = "regular",
-  NEW = "new",
-}
-
 interface MovieDetails {
   title: string;
-  code: MovieCode;
+  movieCodeID: string;
 }
 
 export type MovieCollection = {

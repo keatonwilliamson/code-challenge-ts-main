@@ -1,0 +1,12 @@
+{
+    "F001": {
+        "flatPoints": 1,
+        "daysThreshold": 0,
+        "pointsAfterThreshold": 0
+    },
+    "F002": {
+        "flatPoints": 1,
+        "daysThreshold": 2,
+        "pointsAfterThreshold": 1
+    }
+}

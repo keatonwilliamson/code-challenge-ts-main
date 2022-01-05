@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { Customer } from "./Customer";
-import { MovieCollection } from "./Movie";
+import { Customer } from "./models/Customer";
+import { MovieCollection } from "./models/Movie";
 
 import { Command } from "commander";
 import { statement } from "./statement";
