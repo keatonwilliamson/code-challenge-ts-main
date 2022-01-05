@@ -4,7 +4,7 @@ export enum CostPolicyId {
     F003 = "F003",
 }
 
-interface CostPolicyDetails {
+export interface CostPolicyDetails {
     description: string;
     flatFee: number;
     daysThreshold: number;

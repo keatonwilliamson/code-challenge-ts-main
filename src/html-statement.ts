@@ -1,8 +1,21 @@
 import { MovieCode } from "./models/Movie";
 import { Customer } from "./models/Customer"
+import { PointsPolicyDetails } from "./models/PointsPolicy";
+import { CostPolicyDetails } from "./models/CostPolicy";
 
 
-let rentalCallback = (days: number)
+
+const getCost = (policy: CostPolicyDetails, days: number): number => {
+  const { flatFee, daysThreshold, dailyCostAfterThreshold } = policy
+  const dailyFee = (days > daysThreshold) ? (days - daysThreshold) * dailyCostAfterThreshold : 0;
+  return flatFee + dailyFee;
+}
+
+const getPoints = (policy: PointsPolicyDetails, days: number): number => {
+  const { flatPoints, daysThreshold, pointsAfterThreshold } = policy
+  const additionalPoints = (days > daysThreshold) ? pointsAfterThreshold : 0;
+  return flatPoints + additionalPoints;
+}
 
 export const statement = (customer: Customer, movies: any, html: boolean): string => {
   let totalAmount = 0;

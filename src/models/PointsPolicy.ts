@@ -3,7 +3,7 @@ export enum PointsPolicyId {
     F002 = "F002",
 }
 
-interface PointsPolicyDetails {
+export interface PointsPolicyDetails {
     description: string;
     flatPoints: number;
     daysThreshold: number;
