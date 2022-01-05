@@ -1,0 +1,17 @@
+{
+    "F001": {
+        "name": "regular",
+        "costPolicyId": "F001",
+        "pointsPolicyId": "F001"
+    },
+    "F002": {
+        "name": "new",
+        "costPolicyId": "F002",
+        "pointsPolicyId": "F002"
+    },
+    "F003": {
+        "name": "childrens",
+        "costPolicyId": "F003",
+        "pointsPolicyId": "F001"
+    }
+}

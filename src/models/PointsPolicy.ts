@@ -11,5 +11,5 @@ export interface PointsPolicyDetails {
 }
 
 export type PointsPolicyCollection = {
-    [PointsPolicyID in PointsPolicyId]: PointsPolicyDetails;
+    [id in PointsPolicyId]: PointsPolicyDetails;
 };

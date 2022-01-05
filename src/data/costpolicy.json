@@ -1,7 +1,20 @@
 {
     "F001": {
-        "flatFee": "",
-        "daysThreshold": "",
-        "dailyCostAfterThreshold": ""
+        "description": "Two dollars flat, then 1.5 dollars a day after 2 days",
+        "flatFee": 2,
+        "daysThreshold": 2,
+        "dailyCostAfterThreshold": 1.5
+    },
+    "F002": {
+        "description": "3 dollars a day",
+        "flatFee": 0,
+        "daysThreshold": 0,
+        "dailyCostAfterThreshold": 3
+    },
+    "F003": {
+        "description":  "1.5 dollars flat, then 1.5 dollars a day after 3 days",
+        "flatFee": 1.5,
+        "daysThreshold": 3,
+        "dailyCostAfterThreshold": 1.5
     }
 }

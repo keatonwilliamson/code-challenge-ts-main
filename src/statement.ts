@@ -1,4 +1,9 @@
-import { MovieCode } from "./models/Movie";
+// this interface not part of final solution. put here to prevent compilation errors in original code
+enum MovieCode {
+  NEW = "new",
+  REGULAR = "regular",
+  CHILDRENS = "childrens"
+}
 
 export const statement = (customer: any, movies: any): string => {
   let totalAmount = 0;

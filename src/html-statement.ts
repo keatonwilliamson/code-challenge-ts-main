@@ -10,7 +10,7 @@ const getCost = (policy: CostPolicyDetails, days: number): number => {
   return flatFee + dailyFee;
 }
 
-const getPoints = (policy: PointsPolicyDetails, days: number): number => {
+const getPoints  = (policy: PointsPolicyDetails, days: number): number => {
   const { flatPoints, daysThreshold, pointsAfterThreshold } = policy
   const additionalPoints = (days > daysThreshold) ? pointsAfterThreshold : 0;
   return flatPoints + additionalPoints;
@@ -26,14 +26,9 @@ export const statement = (
   pointsPolicies: PointsPolicyCollection,
   returnHTML: boolean
 ): string => {
-
   const { name, rentals } = customer;
 
-  // let totalAmount = 0;
-  // let frequentRenterPoints = 0;
-  // let result = `Rental Record for ${customer.name}\n` `<h1>Rental Record for <em>Joe Schmoe</em></h1>${customer.name}\n`
-
-  const movieData: { title: string, cost: number, points: number }[] = rentals.map(({ movieId, days }) => {
+  const movieListData: { title: string, cost: number, points: number }[] = rentals.map(({ movieId, days }) => {
     const movie = movies[movieId];
     const category = categories[movie.categoryId];
     const costPolicy = costPolicies[category.costPolicyId]
@@ -41,27 +36,28 @@ export const statement = (
     return {
       title: movie.title,
       cost: getCost(costPolicy, days),
-      points: getPoints(pointsPolicy, days)
+      points: getPoints (pointsPolicy, days)
     }
   })
 
-  const totalCost = sum(movieData.map(movie => movie.cost));
-  const totalPoints = sum(movieData.map(movie => movie.points));
+  const totalCost = sum(movieListData.map(movie => movie.cost));
+  const totalPoints = sum(movieListData.map(movie => movie.points));
 
   const title = returnHTML
     ? `<h1>Rental Record for <em>${name}</em></h1>\n`
     : `Rental Record for ${name}\n`
 
-  const movieTable = 
+  const movieList = returnHTML
+    ? `<ul>\n${movieListData.map(({ title, cost }) => `\t<li>${title} - ${cost}</li>\n`)}</ul>\n`
+    : `${movieListData.map(({ title, cost }) => `\t${title} \t${cost} \n`)}`
 
   const totals = returnHTML
     ? `Amount owed is ${totalCost}\n` + `You earned ${totalPoints} frequent renter points\n`
-    : `<p>Amount owed is <em>${totalCost}</em></p>\n` + `<p>You earned <em>${totalPoints}</em> frequent renter points</p>\n`
+    : `< p > Amount owed is < em > ${totalCost} </></p >\n` + ` < p > You earned < em > ${totalPoints} </> frequent renter points</p >\n`
 
-  // result += `\t${movie.title}\t${thisAmount}\n`;
-  //   totalAmount += thisAmount;
-  // }
-
-
-  return `${title}${totals}`;
+  return `
+  ${title}
+  ${movieList}
+  ${totals} 
+  `;
 };
