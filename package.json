@@ -20,6 +20,8 @@
     "build": "tsc -p .",
     "statement": "ts-node src/index.ts statement",
     "statement:watch": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts statement",
+    "html-statement": "ts-node src/index.ts html-statement",
+    "html-statement:watch": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts html-statement",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
