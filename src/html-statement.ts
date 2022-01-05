@@ -1,9 +1,8 @@
-import { MovieCode } from "./models/Movie";
+import { MovieCollection } from "./models/Movie";
 import { Customer } from "./models/Customer"
-import { PointsPolicyDetails } from "./models/PointsPolicy";
-import { CostPolicyDetails } from "./models/CostPolicy";
-
-
+import { PointsPolicyCollection, PointsPolicyDetails } from "./models/PointsPolicy";
+import { CostPolicyCollection, CostPolicyDetails } from "./models/CostPolicy";
+import { CategoryCollection, CategoryId } from "./models/Category";
 
 const getCost = (policy: CostPolicyDetails, days: number): number => {
   const { flatFee, daysThreshold, dailyCostAfterThreshold } = policy
@@ -17,61 +16,52 @@ const getPoints = (policy: PointsPolicyDetails, days: number): number => {
   return flatPoints + additionalPoints;
 }
 
-export const statement = (customer: Customer, movies: any, html: boolean): string => {
-  let totalAmount = 0;
-  let frequentRenterPoints = 0;
-  // let result = `Rental Record for ${customer.name}\n` `<h1>Rental Record for <em>Joe Schmoe</em></h1>${customer.name}\n`
-  let title = html
-    ? `<h1>Rental Record for <em>${customer.name}</em></h1>`
-    : `Rental Record for ${customer.name}`
+const sum = (arr: number[]): number => arr.reduce((prev, curr) => prev + curr);
 
-  // { "movieID": "F001", "days": 3 },
-  // { "movieID": "F002", "days": 5 },
-  // { "movieID": "F003", "days": 4 }
-  let yeah: { title: string, amount: number }[] = customer.rentals.map(r => {
-    return { title: movies[r.movieID] }
+export const statement = (
+  customer: Customer,
+  movies: MovieCollection,
+  categories: CategoryCollection,
+  costPolicies: CostPolicyCollection,
+  pointsPolicies: PointsPolicyCollection,
+  returnHTML: boolean
+): string => {
+
+  const { name, rentals } = customer;
+
+  // let totalAmount = 0;
+  // let frequentRenterPoints = 0;
+  // let result = `Rental Record for ${customer.name}\n` `<h1>Rental Record for <em>Joe Schmoe</em></h1>${customer.name}\n`
+
+  const movieData: { title: string, cost: number, points: number }[] = rentals.map(({ movieId, days }) => {
+    const movie = movies[movieId];
+    const category = categories[movie.categoryId];
+    const costPolicy = costPolicies[category.costPolicyId]
+    const pointsPolicy = pointsPolicies[category.pointsPolicyId]
+    return {
+      title: movie.title,
+      cost: getCost(costPolicy, days),
+      points: getPoints(pointsPolicy, days)
+    }
   })
 
-  {
-    baseAmount: number,
-      daysApplicationThreshold: Number,
-        daysOffset: Number,
-          daysMultiplier: number
-  }
+  const totalCost = sum(movieData.map(movie => movie.cost));
+  const totalPoints = sum(movieData.map(movie => movie.points));
+
+  const title = returnHTML
+    ? `<h1>Rental Record for <em>${name}</em></h1>\n`
+    : `Rental Record for ${name}\n`
+
+  const movieTable = 
+
+  const totals = returnHTML
+    ? `Amount owed is ${totalCost}\n` + `You earned ${totalPoints} frequent renter points\n`
+    : `<p>Amount owed is <em>${totalCost}</em></p>\n` + `<p>You earned <em>${totalPoints}</em> frequent renter points</p>\n`
+
+  // result += `\t${movie.title}\t${thisAmount}\n`;
+  //   totalAmount += thisAmount;
+  // }
 
 
-  for (let r of customer.rentals) {
-    let movie = movies[r.movieID];
-    let thisAmount = 0;
-
-    switch (movie.code) {
-      case MovieCode.REGULAR:
-        thisAmount = 2;
-        if (r.days > 2) {
-          thisAmount += (r.days - 2) * 1.5;
-        }
-        break;
-      case MovieCode.NEW:
-        thisAmount = r.days * 3;
-        break;
-      case MovieCode.CHILDRENS:
-        thisAmount = 1.5;
-        if (r.days > 3) {
-          thisAmount += (r.days - 3) * 1.5;
-        }
-        break;
-    }
-
-    frequentRenterPoints++;
-    if (movie.code === MovieCode.NEW && r.days > 2) frequentRenterPoints++;
-
-    result += `\t${movie.title}\t${thisAmount}\n`;
-    totalAmount += thisAmount;
-  }
-
-
-  result += `Amount owed is ${totalAmount}\n`;
-  result += `You earned ${frequentRenterPoints} frequent renter points\n`;
-
-  return result;
+  return `${title}${totals}`;
 };

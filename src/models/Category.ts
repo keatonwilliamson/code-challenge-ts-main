@@ -1,3 +1,6 @@
+import { CostPolicyId } from "./CostPolicy";
+import { PointsPolicyId } from "./PointsPolicy";
+
 export enum CategoryId {
   F001 = "F001",
   F002 = "F002",
@@ -12,11 +15,11 @@ export enum CategoryName {
 
 interface CategoryDetails {
   name: CategoryName
-  costId: string;
-  pointsId: string;
+  costPolicyId: CostPolicyId;
+  pointsPolicyId: PointsPolicyId;
 }
 
 export type CategoryCollection = {
-  [CategoryID in CategoryId]: CategoryDetails;
+  [id in CategoryId]: CategoryDetails;
 };
 

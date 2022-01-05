@@ -1,13 +1,16 @@
+import { CategoryId } from "./Category";
+
 export enum MovieId {
   F001 = "F001",
   F002 = "F002",
+  F003 = "F003",
 }
 
 interface MovieDetails {
   title: string;
-  movieCodeID: string;
+  categoryId: CategoryId;
 }
 
 export type MovieCollection = {
-  [MovieID in MovieId]: MovieDetails;
+  [id in MovieId]: MovieDetails;
 };
