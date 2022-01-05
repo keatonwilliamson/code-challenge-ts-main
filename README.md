@@ -1,3 +1,7 @@
+## Changes made ("Documentation")
+
+I chose to make the function data driven. I changed the "MovieCode" property on "Movie" to a foreign key referencing a new table called "Category". That way I could associate the a movie category with two other new tables, "CostPolicy" and "PointsPolicy", that drive the algorithm parameters for cost and points. A tradeoff made here is the time spend making the data. I also chose to use functional programming for this exercise. a trade off here is that the algorimthmic complexity (and run time) increased since the movies are being interated over multiple times to get the total cost and points rather than a single loop with accumulators. The benefit is that its more modular and hopefully more readable and easy to debug
+
 ## Introduction
 
 In this exercise, there is no right or wrong answer, no trick, no gimmick. There's just some working code that needs your attention.
